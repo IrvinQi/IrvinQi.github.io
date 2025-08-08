@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="【Hugo】APlayer + PJAX 引入音乐播放放器并实现音乐不中断功能">
+<title>Blog2</title>
+
+<link rel='canonical' href='https://IrvinQi.github.io/p/blog2/'>
+
+<link rel="stylesheet" href="/scss/style.min.f7e214d56d5539a7f9da81d1a98879b1936d274591e09df5b9b55f8ea1ac1faa.css"><meta property='og:title' content="Blog2">
+<meta property='og:description' content="【Hugo】APlayer + PJAX 引入音乐播放放器并实现音乐不中断功能">
+<meta property='og:url' content='https://IrvinQi.github.io/p/blog2/'>
+<meta property='og:site_name' content='Irvin-玖柒'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-01-18T19:10:13&#43;08:00'/><meta property='article:modified_time' content='2025-01-18T19:10:13&#43;08:00'/><meta property='og:image' content='https://IrvinQi.github.io/p/blog2/APlayer.png' />
+<meta name="twitter:title" content="Blog2">
+<meta name="twitter:description" content="【Hugo】APlayer + PJAX 引入音乐播放放器并实现音乐不中断功能"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://IrvinQi.github.io/p/blog2/APlayer.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/my_hu7132135911976124637.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">❤️‍🔥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Irvin-玖柒</a></h1>
+            <h2 class="site-description">热爱可抵漫长岁月，风起风止我都在</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://www.bilibili.com/'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/IrvinQi'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/update_log/' >
+                
+                
+                
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>
+                
+                <span>更新日志</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://IrvinQi.github.io/en/" >English</option>
+                                
+                                    <option value="https://IrvinQi.github.io/" selected>简体中文</option>
+                                
+                                    <option value="https://IrvinQi.github.io/ja/" >にっぽん ご</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1-引入音乐播放器">1 引入音乐播放器</a></li>
+    <li><a href="#2-音乐播放器样式切换">2 音乐播放器样式切换</a></li>
+    <li><a href="#3-音乐播放进度保留">3 音乐播放进度保留</a></li>
+    <li><a href="#4-引入pjax">4 引入PJAX</a>
+      <ol>
+        <li><a href="#41-基本引入">4.1 基本引入</a></li>
+        <li><a href="#42-文章样式修复">4.2 文章样式修复</a></li>
+        <li><a href="#43-主题切换修复">4.3 主题切换修复</a></li>
+        <li><a href="#44-文章搜索修复">4.4 文章搜索修复</a></li>
+        <li><a href="#45-搜索内容跳转修复">4.5 搜索内容跳转修复</a></li>
+        <li><a href="#46-文章评论修复">4.6 文章评论修复</a></li>
+      </ol>
+    </li>
+    <li><a href="#5-引入进度条">5 引入进度条</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/blog2/">
+                <img src="/p/blog2/APlayer_hu2373142484832384707.png"
+                        srcset="/p/blog2/APlayer_hu2373142484832384707.png 800w, /p/blog2/APlayer_hu224838275364008584.png 1600w"
+                        width="800" 
+                        height="504" 
+                        loading="lazy"
+                        alt="Featured image of post Blog2" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E8%AE%B0%E5%BD%95/" >
+                记录
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/blog2/">Blog2</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            【Hugo】APlayer &#43; PJAX 引入音乐播放放器并实现音乐不中断功能
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-01-18</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 9 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="1-引入音乐播放器">1 引入音乐播放器
+</h2><ul>
+<li>
+<p>【<a class="link" href="https://aplayer.js.org/#/zh-Hans/"  target="_blank" rel="noopener"
+    >Aplayer官方文档</a>】</p>
+</li>
+<li>
+<p>（1）在博客主目录中创建文件<code>layouts\partials\footer\custom.html</code>，此文件为Stack主题作者留给我们加入自定义组件用的文件(可以查看主题源码同路径文件找到)</p>
+</li>
+<li>
+<p>（2）查看官方文档，引入对应的脚本，css到<code>custom.html</code>中，页面最下面就会出现音乐播放器</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="c">&lt;!-- 【custom.html】 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;aplayer&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">ap</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">APlayer</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">container</span><span class="o">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;aplayer&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">audio</span><span class="o">:</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（3）修改 <strong>ap对象</strong> 配置，改成吸底模式</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">const ap = new APlayer({
+</span></span><span class="line"><span class="cl">    ...,
+</span></span><span class="line"><span class="cl">    // 吸底模式
+</span></span><span class="line"><span class="cl">    fixed: true
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（4）填写audio数组，引入歌曲，封面和歌词
+<ul>
+<li><strong>lrcType</strong> 的值具体看【<a class="link" href="https://aplayer.js.org/#/zh-Hans/?id=%e6%ad%8c%e8%af%8d"  target="_blank" rel="noopener"
+    >文档</a>】</li>
+<li>歌曲，封面，歌词支持远程链接 or 本地路径</li>
+<li>若想通过本地路径引入，请将资源文件放在<code>static</code>文件夹下，通过hugo方法<code>{{ .Site.Home.Permalink }}</code>，获取网站主路径来拼接文件路径，进行引入</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">const staticDir = {{ .Site.Home.Permalink }}
+</span></span><span class="line"><span class="cl">const ap = new APlayer({
+</span></span><span class="line"><span class="cl">    ...,
+</span></span><span class="line"><span class="cl">    lrcType: 3,
+</span></span><span class="line"><span class="cl">    audio: [
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">             name: &#39;name&#39;, // 歌名
+</span></span><span class="line"><span class="cl">             artist: &#39;artist&#39;, // 歌手
+</span></span><span class="line"><span class="cl">             url: &#39;url.mp3&#39;, // 歌曲路径
+</span></span><span class="line"><span class="cl">             cover: &#39;cover.jpg&#39;, // 封面路径
+</span></span><span class="line"><span class="cl">             lrc: &#39;lrc.lrc&#39;, // 歌词路径
+</span></span><span class="line"><span class="cl">        },
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            // 本地路径引入写法（有子目录就在staticDir后面继续拼接）
+</span></span><span class="line"><span class="cl">            name: &#39;name&#39;,
+</span></span><span class="line"><span class="cl">            artist: &#39;artist&#39;,
+</span></span><span class="line"><span class="cl">            url: staticDir + &#39;url.mp3&#39;,
+</span></span><span class="line"><span class="cl">            cover: staticDir + &#39;cover.jpg&#39;,
+</span></span><span class="line"><span class="cl">            lrc: staticDir + &#39;lrc.lrc&#39;,
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    ]
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2-音乐播放器样式切换">2 音乐播放器样式切换
+</h2><ul>
+<li>
+<p>（1）通过阅读Stack主题的源码可以看到，主题样式的切换是通过<code>[data-scheme=&quot;light/darck&quot;] {...}</code></p>
+</li>
+<li>
+<p>（2）所以我们可以准备两种Aplayer的css，用<code>[data-scheme=&quot;light&quot;]{ 亮的css样式 }</code>包裹亮的，用<code>[data-scheme=&quot;dark&quot;]{ 暗的css样式 }</code>包裹暗的，这里直接给各位准备好了</p>
+<ul>
+<li><a class="link" href="https://letere-gzj.github.io/hugo-stack/p/hugo/custom-player/aplayer-light.scss"  target="_blank" rel="noopener"
+    >aplayer-light.scss</a>（Ctrl+S保存）</li>
+<li><a class="link" href="https://letere-gzj.github.io/hugo-stack/p/hugo/custom-player/aplayer-dark.scss"  target="_blank" rel="noopener"
+    >aplayer-dark.scss</a>（Ctrl+S保存）</li>
+</ul>
+</li>
+<li>
+<p>（3）在博客主目录中创建文件<code>assets\scss\custom.scss</code>，此文件为Stack主题作者留给我们加入自定义样式用的文件(可以查看主题源码同路径文件找到)</p>
+</li>
+<li>
+<p>（4）将上述两个scss文件放到跟 <strong>custom.scss</strong>同目录下，并通过<code>@import</code>来进行引入文件</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/**
+</span></span><span class="line"><span class="cl"> * 【custom.scss】
+</span></span><span class="line"><span class="cl"> */
+</span></span><span class="line"><span class="cl">@import &#34;aplayer-light.scss&#34;;
+</span></span><span class="line"><span class="cl">@import &#34;aplayer-dark.scss&#34;;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（5）因为音乐播放器的css改为我们本地文件引入了，所以 <strong>custom.html</strong> 中的link标签可以将它注释掉或者删掉了</li>
+</ul>
+<h2 id="3-音乐播放进度保留">3 音乐播放进度保留
+</h2><ul>
+<li>
+<p>（1）实现思路：页面切换前，把歌曲的 <strong>歌曲序号</strong>，<strong>播放时长</strong>，<strong>播放状态</strong> 记录下来；在页面切换加载完之后，我们调用Aplayer的接口切换歌曲，调整时长，并选择播放or暂停</p>
+</li>
+<li>
+<p>（2）通过<code>console.log(ap)</code>打印ap对象，或者官方文档，可以找到我们需要的参数</p>
+<ul>
+<li><strong>list.index</strong>：歌曲序号</li>
+<li><strong>audio.currentTime</strong>：播放时长</li>
+<li><strong>paused</strong> ：播放状态（是否暂停）</li>
+</ul>
+</li>
+<li>
+<p>（3）通过【<a class="link" href="https://aplayer.js.org/#/zh-Hans/?id=api"  target="_blank" rel="noopener"
+    >官方文档</a>】可以查找到我们需要调用的接口</p>
+<ul>
+<li><strong>ap.list.switch(index: number)</strong>：切换歌曲</li>
+<li><strong>ap.seek(time: number)</strong>：调整时长</li>
+<li><strong>ap.play()</strong>：播放歌曲</li>
+</ul>
+</li>
+<li>
+<p>（4）需要的东西已经找齐，只需在 <strong>custom.html</strong> 加入以下代码即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">&lt;!--</span> <span class="err">【</span><span class="n">custom</span><span class="o">.</span><span class="n">html</span><span class="err">】</span> <span class="o">--&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">script</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="o">/**</span>
+</span></span><span class="line"><span class="cl">     <span class="o">*</span> <span class="err">页面销毁前监听</span>
+</span></span><span class="line"><span class="cl">     <span class="o">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">window</span><span class="o">.</span><span class="n">onbeforeunload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">//</span> <span class="err">将播放信息用对象封装，并存入到</span><span class="n">localStorage中</span>
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="n">playInfo</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">index</span><span class="p">:</span> <span class="n">ap</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentTime</span><span class="p">:</span> <span class="n">ap</span><span class="o">.</span><span class="n">audio</span><span class="o">.</span><span class="n">currentTime</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">paused</span><span class="p">:</span> <span class="n">ap</span><span class="o">.</span><span class="n">paused</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="n">localStorage</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="s2">&#34;playInfo&#34;</span><span class="p">,</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">playInfo</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">/**</span>
+</span></span><span class="line"><span class="cl">     <span class="o">*</span> <span class="err">页面加载后监听</span>
+</span></span><span class="line"><span class="cl">     <span class="o">*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">window</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">//</span> <span class="err">从</span><span class="n">localStorage取出播放信息</span>
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="n">playInfo</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">localStorage</span><span class="o">.</span><span class="n">getItem</span><span class="p">(</span><span class="s2">&#34;playInfo&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">playInfo</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">//</span> <span class="err">切换歌曲</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ap</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="k">switch</span><span class="p">(</span><span class="n">playInfo</span><span class="o">.</span><span class="n">index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">//</span> <span class="err">等待</span><span class="mi">500</span><span class="n">ms再执行下一步</span><span class="p">(</span><span class="err">切换歌曲需要点时间，不能立马调歌曲进度条</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="o">//</span> <span class="err">调整时长</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ap</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">playInfo</span><span class="o">.</span><span class="n">currentTime</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">//</span> <span class="err">是否播放</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">playInfo</span><span class="o">.</span><span class="n">paused</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ap</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="mi">500</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="4-引入pjax">4 引入PJAX
+</h2><h3 id="41-基本引入">4.1 基本引入
+</h3></li>
+<li>
+<p>（1）PJAX主要分为两个版本，<strong>带JQuery</strong> 和 <strong>不带JQuery</strong>的，下面我演示的是不带JQuery版本的</p>
+<ul>
+<li>【<a class="link" href="https://github.com/defunkt/jquery-pjax"  target="_blank" rel="noopener"
+    >defunkt/jquery-pjax</a>】（带JQuery）</li>
+<li>【<a class="link" href="https://github.com/MoOx/pjax"  target="_blank" rel="noopener"
+    >MoOx/pjax</a>】（不带JQuery）</li>
+</ul>
+</li>
+<li>
+<p>（2）分析页面元素，看哪些是需要我们重新加载的，可以发现是<strong>左侧边栏</strong>，<strong>中间内容</strong>，<strong>右侧边栏</strong></p>
+</li>
+<li>
+<p>（3）查看页面源代码，可以发现这些元素都被一个<code>&lt;div class=&quot;main-container&quot;&gt;...&lt;/div&gt;</code>包裹着，所以我们将这元素定为要刷新的对象</p>
+<ul>
+<li>（4）根据官方文档，在 <strong>custom.html</strong> 加入以下代码来引入PJAX</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- 【custom.html】 --&gt;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://cdn.jsdelivr.net/npm/pjax/pjax.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">pjax</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pjax</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">	  <span class="nx">selectors</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">	    <span class="s2">&#34;.main-container&#34;</span>
+</span></span><span class="line"><span class="cl">	  <span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="42-文章样式修复">4.2 文章样式修复
+</h3><ul>
+<li>（1）随便点进其中一篇文章，可以发现文章内容的样式丢失，缺少文章该有的边框</li>
+<li>（2）通过手动刷新，对比页面元素发现，决定文章样式的是<code>&lt;body&gt;</code> 标签中的class名: <strong>article-page</strong>，存在此class名就会识别到文章该有的css</li>
+<li>（3）因为<code>&lt;body&gt;</code>内包含整个页面的所有内容，包括我们的音乐播放器，所以不能让PJAX监听<code>&lt;body&gt;</code>标签
+<ul>
+<li>阅读官方文档发现，官方提供了数据预处理方法，让我们处理数据</li>
+<li>我们通过预处理数据，获取到新页面的className，然后我们手动将这className设置到<code>&lt;body&gt;</code>上</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- 【custom.html】 --&gt;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">pjax</span><span class="p">.</span><span class="nx">_handleResponse</span> <span class="o">=</span> <span class="nx">pjax</span><span class="p">.</span><span class="nx">handleResponse</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">pjax</span><span class="p">.</span><span class="nx">handleResponse</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">responseText</span><span class="p">,</span> <span class="nx">request</span><span class="p">,</span> <span class="nx">href</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">responseText</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="s2">&#34;&lt;html&#34;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 将新页面的html字符串解析成DOM对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kd">let</span> <span class="nx">newDom</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DOMParser</span><span class="p">().</span><span class="nx">parseFromString</span><span class="p">(</span><span class="nx">responseText</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 获取新页面中body的className，并设置回当前页面
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kd">let</span> <span class="nx">bodyClass</span> <span class="o">=</span> <span class="nx">newDom</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">className</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&#34;class&#34;</span><span class="p">,</span> <span class="nx">bodyClass</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 放行，交给pjax自己处理
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">pjax</span><span class="p">.</span><span class="nx">_handleResponse</span><span class="p">(</span><span class="nx">responseText</span><span class="p">,</span> <span class="nx">request</span><span class="p">,</span> <span class="nx">href</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// handle non-HTML response here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><em><strong>这样我们切页面后，都会自动把body中的className更新，就不会丢失样式了</strong></em></p>
+<h3 id="43-主题切换修复">4.3 主题切换修复
+</h3><ul>
+<li>
+<p>（1）当我们切换页面后，点击左下角切换主题颜色的按钮，会发现没有效果，主题颜色切换失效了</p>
+</li>
+<li>
+<p>（2）阅读Stack主题源码<code>\assets\ts\colorScheme.ts</code>发现，在脚本初始化时，会给元素绑定一个点击事件。但因为页面切换了，替换了该元素，但该元素没有重新绑定点击事件，导致点击主题切换失效</p>
+</li>
+<li>
+<p>（3）解决思路：在PJAX切换完页面后，重新执行一遍<code>colorScheme.ts</code>的初始化，使元素重新绑定点击事件。</p>
+<ul>
+<li>
+<p>阅读源码，发现<code>colorScheme.ts</code>被<code>main.ts</code>引用，在<code>main.ts</code>中执行了初始化，并且<code>main.ts</code>生成了个全局变量 <strong>Stack</strong></p>
+</li>
+<li>
+<p>所以在PJAX执行完后，使用全局变量 <strong>Stack</strong> ，执行里面的初始化方法，重新执行一遍脚本，来绑定点击事件</p>
+</li>
+<li>
+<p>阅读PJAX文档，发现官方也提供了PJAX执行完后的事件，我们执行监听这个事件，<strong>Stack</strong> 执行初始化就好</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- 【custom.html】 --&gt;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;pjax:complete&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Stack脚本初始化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nb">window</span><span class="p">.</span><span class="nx">Stack</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="44-文章搜索修复">4.4 文章搜索修复
+</h3><ul>
+<li>
+<p>（1）使用文章搜索功能时，输入关键词，无任何搜索记录，搜索功能失效</p>
+</li>
+<li>
+<p>（2）查看<code>layouts\ts\search.tsx</code>文件，发现情况和上面的<code>colorScheme.ts</code>类似，存在绑定事件</p>
+</li>
+<li>
+<p>（3）解决思路类似上面的，把 <strong>search.tsx</strong> 初始化内容，封装为一个函数，并把函数 <strong>export</strong> 出来，由 <strong>main.ts</strong> 引入这个函数，并放到 <strong>Stack.init()</strong> 的方法中，利用此方法来重新初始化搜索脚本 - <em><strong>（以下操作请复制同路径同名文件到自己主目录下修改，不要在主题源码中修改）</strong></em></p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-tsx" data-lang="tsx"><span class="line"><span class="cl"><span class="cm">/** 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 【search.tsx】
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 记得把window.addEventListener(&#39;load&#39; ...这部分代码注释掉
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 初始化工作交给Stack.init()处理了，不需要这个了
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>  
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">searchInit() {</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">search</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.search-result&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">search</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">searchForm</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.search-form&#39;</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">HTMLFormElement</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">searchInput</span> <span class="o">=</span> <span class="nx">searchForm</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">HTMLInputElement</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">searchResultList</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.search-result--list&#39;</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">HTMLDivElement</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">searchResultTitle</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.search-result--title&#39;</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">HTMLHeadingElement</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nx">Search</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">form</span>: <span class="kt">searchForm</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">input</span>: <span class="kt">searchInput</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">list</span>: <span class="kt">searchResultList</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">resultTitle</span>: <span class="kt">searchResultTitle</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">resultTitleTemplate</span>: <span class="kt">window.searchResultTitleTemplate</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">searchInit</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 【main.ts】
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">searchInit</span> <span class="p">}</span> <span class="kr">from</span> <span class="s2">&#34;ts/search&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">Stack</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">init</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">...</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 调用search脚本初始化方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">searchInit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>（4）<strong>tsx</strong> 类型的文件引入方式有点特殊，需要我们修改以下 <strong>main.ts</strong> 的引入方式，修改<code>layouts\partials\footer\components\script.html</code>，改法参考<code>layouts\page\search.html</code>，把<code>&quot;JSXFactory&quot; &quot;createElement&quot;</code>补充上就好</li>
+</ul>
+<h3 id="45-搜索内容跳转修复">4.5 搜索内容跳转修复
+</h3><ul>
+<li>（1）虽然文章搜索已经修复了，但搜索出来的内容并没有被PJAX识别到，导致PJAX没有拦截，进而导致页面刷新了</li>
+<li>（2）阅读 <strong>search.tsx</strong> 源码可知，搜索内容的数据，是通过 <strong>React.render()</strong> ，动态渲染回页面的，这些动态数据没有被PJAX识别到。阅读PJAX文档，官方提供给了我们重新解析数据的方法，所以在 <strong>React.render()</strong> 之后，调用PJAX方法，重新解析页面即可</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-tsx" data-lang="tsx"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 【search.tsx】
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kr">private</span> <span class="kr">async</span> <span class="nx">doSearch</span><span class="p">(</span><span class="nx">keywords</span>: <span class="kt">string</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 
+</span></span></span><span class="line"><span class="cl"><span class="cm">    方法末尾，让pjax重新解析文档数据，识别动态渲染的数据
+</span></span></span><span class="line"><span class="cl"><span class="cm">    虽然当前文件没有pjax对象，但最后静态页面会生成一个整体的js文件
+</span></span></span><span class="line"><span class="cl"><span class="cm">    pjax对象那时就能识别到，就可成功调用
+</span></span></span><span class="line"><span class="cl"><span class="cm">    */</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">pjax</span><span class="p">.</span><span class="nx">refresh</span><span class="p">(</span><span class="nb">document</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><em><strong>这样动态渲染出的页面数据就能被PJAX识别到，就不会刷新页面跳转了</strong></em></p>
+<h3 id="46-文章评论修复">4.6 文章评论修复
+</h3><ul>
+<li>（1）如果博客有开启评论功能的话，会发现评论的脚本不生效了</li>
+<li>（2）由于每个人使用的评论种类各不相同，所以这边也是简单说一下。PJAX官方文档也有说如何处理：
+<ul>
+<li>用一个<code>&lt;div class=js-Pjax&gt;&lt;/div&gt;</code>来包裹一个<code>&lt;script&gt;&lt;/script&gt;</code></li>
+<li>在<code>&lt;script&gt;</code>标签中，通过<code>document.createElement('script')</code>形式，创建对应的评论脚本内容</li>
+<li>pjax对象通过 <strong>.js-Pjax</strong> 被识别到此内容，进行脚本执行</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- custom.thml --&gt;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">pjax</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pjax</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">selectors</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">            <span class="p">...</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;.js-Pjax&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;js-Pjax&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// TODO: 判断当前是否是文档，且是否开启评论功能
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">let</span> <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 将对应评论的脚本内容填进去
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>             <span class="nx">script</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">...</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 寻找合适的元素，添加脚本进去
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;xxx&#39;</span><span class="p">).</span><span class="nx">appendchild</span><span class="p">(</span><span class="nx">script</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})(</span><span class="nb">document</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="5-引入进度条">5 引入进度条
+</h2><ul>
+<li>（1）由于使用了PJAX后，无法得知页面的加载情况是否完成，所以引入一个伪进度条，来显示页面内容进度</li>
+<li>（2）前往【<a class="link" href="https://buunguyen.github.io/topbar/"  target="_blank" rel="noopener"
+    >topbar</a>】，点击下载zip包，将解压后的 <strong>topbar.min.js</strong> 放到<code>assets\js\topbar.min.js</code></li>
+<li>（3）通过监听PJAX两个事件 <strong>pjax:send</strong> 和 <strong>pjax:complete</strong> 实现伪进度条</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!--custom.html--&gt;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">{{ with resources.Get &#34;js/topbar.min.js&#34; }}
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- 引入本地JS脚本 --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">{{</span> <span class="err">.</span><span class="na">Permalink</span> <span class="err">}}</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">{{ end }}
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 修改进度条颜色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">topbar</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">barColors</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;0&#39;</span><span class="o">:</span> <span class="s1">&#39;rgba(255,  255, 255, 1)&#39;</span><span class="p">,</span> <span class="c1">// 进度0%白色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="s1">&#39;1.0&#39;</span><span class="o">:</span> <span class="s1">&#39;rgba(0, 149, 234,  1)&#39;</span> <span class="c1">// 进度100%蓝色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;pjax:send&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 显示顶部进度条
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">topbar</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;pjax:complete&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">....</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 隐藏顶部进度条
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">topbar</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><em><strong>这样伪进度条就成功引入了，能大概知道页面的加载情况了</strong></em></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E8%AE%B0%E5%BD%95links%E6%9B%B4%E6%96%B0/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E8%AE%B0%E5%BD%95links%E6%9B%B4%E6%96%B0/wangluoweixie.709bd0c4f9cd17a813f7d0122dbd4b1f_hu962203724151175803.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 记录：Links更新"
+                        
+                        data-hash="md5-cJvQxPnNF6gT99ASLb1LHw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">记录：Links更新</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 Irvin-玖柒
+    </section>
+    
+    <section class="powerby">
+        
+            网站总访客数：<span id='busuanzi_value_site_uv'>Loading</span><br/>网站总访问量：<span id='busuanzi_value_site_pv'>Loading</span> <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.99ce1801c4bad426a42fc436add4721e149159dbb598636e9578fd59cf778c83.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<style>
+    body {
+        background: url(https://IrvinQi.github.io/background/xiamu1.jpg) no-repeat center top;
+    background-size: cover;
+    background-attachment: fixed;
+    }
+
+     
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url(https://IrvinQi.github.io/icons/backTop-light.svg);
+    }
+</style>
+
+<script src=https://IrvinQi.github.io/background/sakura.js></script>
+
+<script>
+    
+
+    function initScrollTop() {
+        let rightSideBar = document.querySelector(".right-sidebar");
+        if (!rightSideBar) {
+            return;
+        }
+        
+        let btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = backToTop
+        rightSideBar.appendChild(btn)
+        
+        window.onscroll = function() {
+            
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+    }
+
+    
+
+    function backToTop(){
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    initScrollTop();
+</script>
+
+
+<div id="aplayer"></div>
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
+<script>
+    const staticDir = "https://IrvinQi.github.io/"
+    const ap = new APlayer({
+        container: document.getElementById('aplayer'),
+        fixed: true,
+        lrcType: 3,
+        audio: [
+            {
+                
+                name: 'ふるさとの匂い (故乡的味道)',
+                artist: '吉森信',
+                url: staticDir + 'music/ふるさとの匂い (故乡的味道) - 吉森信.mp3',
+                cover: staticDir + 'music/ふるさとの匂い (故乡的味道) - 吉森信.jpg',
+                lrc: staticDir + 'music/ふるさとの匂い (故乡的味道) - 吉森信.lrc',
+            },
+            {
+                
+                name: '天下',
+                artist: '张杰',
+                url: staticDir + 'music/天下 - 张杰.mp3',
+                cover: staticDir + 'music/天下 - 张杰.jpg',
+                lrc: staticDir + 'music/天下 - 张杰.lrc',
+            },
+            {
+                
+                name: '赤伶',
+                artist: 'HITA',
+                url: staticDir + 'music/赤伶 - HITA.mp3',
+                cover: staticDir + 'music/赤伶 - HITA.jpg',
+                lrc: staticDir + 'music/赤伶 - HITA.lrc',
+            },
+            {
+                
+                name: '茜さす (夕晖)',
+                artist: 'Aimer',
+                url: staticDir + 'music/茜さす (夕晖) - Aimer.mp3',
+                cover: staticDir + 'music/茜さす (夕晖) - Aimer.jpg',
+                lrc: staticDir + 'music/茜さす (夕晖) - Aimer.lrc',
+            },
+            {
+                
+                name: '荒',
+                artist: '郑鱼',
+                url: staticDir + 'music/荒 - 郑鱼.mp3',
+                cover: staticDir + 'music/荒 - 郑鱼.jpg',
+                lrc: staticDir + 'music/荒 - 郑鱼.lrc',
+            },
+            {
+                
+                name: '荒（我曾爱过一个人） (竹笛纯享版)',
+                artist: '雨帆',
+                url: staticDir + 'music/荒（我曾爱过一个人） (竹笛纯享版) - 雨帆.mp3',
+                cover: staticDir + 'music/荒（我曾爱过一个人） (竹笛纯享版) - 雨帆.jpg',
+                lrc: staticDir + 'music/荒（我曾爱过一个人） (竹笛纯享版) - 雨帆.lrc',
+            },
+        ],
+
+    });
+    
+
+    window.onbeforeunload = () => {
+        
+        const playInfo = {
+            index: ap.list.index,
+            currentTime: ap.audio.currentTime,
+            paused: ap.paused
+        };
+        localStorage.setItem("playInfo", JSON.stringify(playInfo));
+    };
+
+    
+
+    window.onload = () => {
+        
+        const playInfo = JSON.parse(localStorage.getItem("playInfo"));
+        if (!playInfo) {
+            return;
+        }
+        
+        ap.list.switch(playInfo.index);
+        
+        setTimeout(() => {
+            
+            ap.seek(playInfo.currentTime);
+            
+            if (!playInfo.paused) {
+                ap.play()
+            }
+        }, 500);
+    };
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container"
+        ]
+    })
+    
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            
+            let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+            
+            let bodyClass = newDom.body.className;
+            document.body.setAttribute("class", bodyClass)
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+    
+    document.addEventListener('pjax:complete', () => {
+        
+        window.Stack.init();
+    })
+</script>
+
+
+
+<script src=https://IrvinQi.github.io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+
+    document.addEventListener('pjax:complete', () => {
+    ....
+        
+        topbar.hide();
+    })
+</script>
+
+
+<script defer src="https://cn.vercount.one/js"></script>
+
+    </body>
+</html>
