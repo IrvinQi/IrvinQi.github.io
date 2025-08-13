@@ -7,7 +7,38 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Irvin-玖柒</copyright>
-        <lastBuildDate>Sat, 18 Jan 2025 19:10:13 +0800</lastBuildDate><atom:link href="https://IrvinQi.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 13 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://IrvinQi.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>GitHub要没了？</title>
+        <link>https://IrvinQi.github.io/p/github%E8%A6%81%E6%B2%A1%E4%BA%86/</link>
+        <pubDate>Wed, 13 Aug 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://IrvinQi.github.io/p/github%E8%A6%81%E6%B2%A1%E4%BA%86/</guid>
+        <description>&lt;h2 id=&#34;一github-重大变革&#34;&gt;一、GitHub 重大变革
+&lt;/h2&gt;&lt;h3 id=&#34;一ceo-离职&#34;&gt;（一）CEO 离职
+&lt;/h3&gt;&lt;p&gt;2025 年 8 月 11 日，GitHub 的 CEO 托马斯・多姆克（Thomas Dohmke）在一篇博客中宣布，他将在今年年底离开 GitHub，“重新成为一名创始人”。托马斯・多姆克自 2021 年起担任 GitHub 的 CEO，主导推出了由 AI 驱动的代码辅助工具 GitHub Copilot。在他担任 CEO 期间，GitHub 实现了全球扩张，AI 项目数量显著提升。&lt;/p&gt;
+&lt;h3 id=&#34;二不再独立运营&#34;&gt;（二）不再独立运营
+&lt;/h3&gt;&lt;p&gt;微软决定不再为 GitHub 寻找新的 CEO，GitHub 将不再是一家独立运营的公司，而是整体并入微软新成立的 CoreAI 工程集团。自 2018 年微软以 75 亿美元收购以来，GitHub 首次失去 “子公司” 身份，成为 CoreAI 的一部分。&lt;/p&gt;
+&lt;h3 id=&#34;三管理架构调整&#34;&gt;（三）管理架构调整
+&lt;/h3&gt;&lt;p&gt;GitHub 将由多位微软高管分管：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微软开发者部门负责人 Julia Liuson，将负责 GitHub 的营收、工程及支持工作。&lt;/li&gt;
+&lt;li&gt;GitHub 首席产品官 Mario Rodriguez，将向微软 AI 平台副总裁 Asha Sharma 汇报。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;二github-现状&#34;&gt;二、GitHub 现状
+&lt;/h2&gt;&lt;h3 id=&#34;一用户规模&#34;&gt;（一）用户规模
+&lt;/h3&gt;&lt;p&gt;目前，GitHub 拥有超过 10 亿个代码库和分支，以及超过 1.5 亿名开发者，仅 2024 年一年，AI 项目的数量就翻了一番。&lt;/p&gt;
+&lt;h3 id=&#34;二服务中断事件&#34;&gt;（二）服务中断事件
+&lt;/h3&gt;&lt;p&gt;2025 年 8 月 12 日 15：20 UTC，GitHub 突发重大服务中断，影响范围涵盖 API、代码库及工作流等核心功能，导致数百万开发者、开源贡献者及企业团队的工作流陷入停滞。官方确认事故源于数据库基础设施变更，引发 API 延迟、数据加载不一致及 Git 操作失败等问题。工程师紧急回滚更新，并在 15：48 UTC 实现部分恢复，平台的不一致性表现仍持续了一段时间，直到当日晚些时候才逐步恢复正常运行。&lt;/p&gt;
+&lt;h2 id=&#34;三未来发展方向&#34;&gt;三、未来发展方向
+&lt;/h2&gt;&lt;p&gt;微软 CoreAI 团队的负责人 Jay Parikh 曾表示希望将微软平台打造成 “所有公司和组织的 AI 智能体工厂”。GitHub 将不只是一个代码托管平台，而是成为微软专属的 “AI 智能体流水线”，未来 GitHub 可能会有以下发展方向：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Copilot 更深入控制工作流。&lt;/li&gt;
+&lt;li&gt;自动生成代码不再是辅助，而是主角。&lt;/li&gt;
+&lt;li&gt;GitHub+Azure 成为微软 AI 工具闭环中的一环。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>【Hugo】APlayer &#43; PJAX </title>
         <link>https://IrvinQi.github.io/p/hugoaplayer--pjax/</link>
         <pubDate>Sat, 18 Jan 2025 19:10:13 +0800</pubDate>
